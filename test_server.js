@@ -7,10 +7,10 @@ var server = dgram.createSocket("udp4");
 var clientList = [];
 
 let public_ip = null; 
-publicIp.v4().then(ip => {
-    public_ip = ip;
-});
-server.bind(3000, public_ip);
+// publicIp.v4().then(ip => {
+//     public_ip = ip;
+// });
+server.bind(3000, ip.address());
 
 //Let user know that server is successfully running, and on which address:port
 server.on("listening", () => {
