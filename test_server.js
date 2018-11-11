@@ -41,7 +41,7 @@ const registerClient = (msg, rinfo)=> {
 			{ public_port: rinfo.port },
 			{ client_name: msg.client_name }, 
 			{ private_ip: msg.private_ip },
-			{ client_id: client_id }, 
+			{ client_id: new_client_id }, 
 			{ private_port: msg.private_port }
 	  	);
 	  	console.log(`New client, ${new_client.client_name}, has been registered`);
