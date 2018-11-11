@@ -192,21 +192,3 @@ stdin.addListener("data", (data) => {
 
 //Bind client socket to first available port
 client.bind();
-
-
-
-
-
-
-//Stuff previously inside the on message function:
-	//msg = JSON.parse(msg);
-	// let private_ip = msg.private_ip;
-	// let private_port = msg.private_port;
-	// let public_ip = rinfo.address; //This assumes that rinfo.address will be the public address of the NAT from which the msg was sent
-	// let public_port = rinfo.port;  //Same for rinfo.port. At the moment, they return the localhost address and given port 
-	//                                //(since i'm sending and receiving on same device)
-
-	// console.log(`Private IP: ${private_ip}`);
-	// console.log(`Private Port: ${private_port}`);
-	// console.log(`Public IP: ${public_ip}`);
-	// console.log(`Public Port: ${public_port}`);
