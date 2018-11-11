@@ -43,6 +43,7 @@ const registerClient = (msg, rinfo)=> {
 
   
  	//Send the new client the current client list
+ 	console.log(`clientList length: ${clienitList.length}`);
   	let regResponseMessage = JSON.stringify({
   		msg_type: "reg_response",
 		clientList: clientList,
