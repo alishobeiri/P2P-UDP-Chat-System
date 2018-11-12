@@ -26,7 +26,7 @@ class UsernameForm extends Component {
           <div>
             <TextInput
               label="Username:"
-              placeholder="For example, @bookercodes"
+              placeholder="For example, alishobeiri"
               value={this.state.username}
               onChange={this.handleChange}
             />
