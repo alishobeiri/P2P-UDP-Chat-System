@@ -20,7 +20,7 @@ class App extends Component {
       currentScreen: "chat"
     })
 
-    this.props.socket.emit('REGISTER_USER', {
+    this.state.socket.emit('REGISTER_USER', {
       name: username
     });
   }

@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
         const clientAddress = client.address(); 
         private_port = clientAddress.port; 
         private_ip = ip.address(); 
-    
+		console.log("New User");
         //Check validity of server IP address
         let address = new Address4(server_ip);
         if(address.isValid()){
@@ -223,4 +223,4 @@ client.on("message", (msg, rinfo) => {
 });
 
 
-client.bind()
+client.bind(0)

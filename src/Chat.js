@@ -3,7 +3,6 @@ import { ChatManager, TokenProvider } from '@pusher/chatkit'
 import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import OnlineList from './OnlineList'
-import io from "socket.io-client";
 
 class Chat extends React.Component {
   constructor(props) {

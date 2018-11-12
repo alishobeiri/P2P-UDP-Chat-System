@@ -1,4 +1,6 @@
 ### P2P Chat System
+First run:
+npm install
 
 To run:
 cd backend
