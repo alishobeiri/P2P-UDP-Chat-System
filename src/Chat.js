@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { ChatManager, TokenProvider } from '@pusher/chatkit'
 import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import OnlineList from './OnlineList'
@@ -17,12 +16,32 @@ class Chat extends React.Component {
     };
     console.log(this.socket);
 
+    const boundFunc = function(data) {
+      console.log("OUR CLIENT ID");
+      console.log(data.client_id);
+      this.setState({
+        currentId: data.client_id
+      }, function() {
+        console.log("WE MADE IT HERE");
+        console.log("Function callback state:", 
+                    this.state.currentId);
+        console.log("Data: ", data);
+        data.clientList.push({
+          client_name: this.state.name, 
+          client_id: this.state.currentId
+        })
+        addUser(data.clientList);
+      });
+    }.bind(this)
+
+    this.props.socket.on("REG_RESPONSE", boundFunc);
 
     this.props.socket.on('RECEIVE_MESSAGE', function(data){
       addMessage(data);
     });
 
     this.props.socket.on('NEW_USER', function(data){
+      console.log("Peers list: ", data);
       addUser(data);
     });
 
@@ -35,11 +54,12 @@ class Chat extends React.Component {
 
     const addUser = data => {
       console.log("New users: ", data);
-      this.setState({users: [data]});
+      this.setState({users: data});
       console.log(this.state.users);
     };
 
     this.addMessage = addMessage;
+    this.addUser = addUser;
   }
 
   componentDidMount() {
@@ -65,6 +85,7 @@ class Chat extends React.Component {
           <OnlineList
             currentUser={this.state.currentUser}
             users={this.state.users}
+            currentId={this.state.currentId}
           />
         </div>
         <div className="chat">

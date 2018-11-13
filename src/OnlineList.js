@@ -10,21 +10,21 @@ import {
 class OnlineList extends Component {
   render() {
     console.log("List Users: ", this.props.users);
+    console.log("Props: ", this.props);
     return (
       <ListView className="online-list">
         <ListViewSection>
           {this.props.users &&
             this.props.users.map((users, index) => {
-              let user = users[index]
-              console.log("User: ", user);
-
-              if (user.id === this.props.currentUser.id) {
+              console.log("Users: ", users);
+              console.log("currentId: ", this.props.currentId);
+              if (users.client_id === this.props.currentId) {
                 return this.renderItem(
-                  `${user.name} (You)`,
-                  user.id
+                  `${users.client_name} (You)`,
+                  users.client_id
                 )
               }
-              return this.renderItem(user.name, user.id)
+              return this.renderItem(users.client_name, users.client_id)
             })}
         </ListViewSection>
       </ListView>
