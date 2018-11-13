@@ -158,14 +158,14 @@ const receiveACK = (msg, rinfo) => {
 	//Find sender peer in peersList and add send_ip and send_port attributes (used for chatting)
     //Same concept as in sendACK() function
     console.log("ACK: ", msg);
-    let new_peer = {
-        name: msg.client_name,
-        id: peersList.length,
-        present_state: "Active",
-        send_ip: src_ip,
-        send_port: src_port
-    };
-    peersList.push(new_peer);
+    // let new_peer = {
+    //     name: msg.client_name,
+    //     id: peersList.length,
+    //     present_state: "Active",
+    //     send_ip: src_ip,
+    //     send_port: src_port
+    // };
+    // peersList.push(new_peer);
     io.emit("NEW_USER", peersList);
 	peersList.forEach((peer) => {
 		if(((peer.private_ip===src_ip)&&(peer.private_port===src_port))||((peer.public_ip===src_ip)&&(peer.public_port===src_port))){
