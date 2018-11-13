@@ -226,6 +226,7 @@ client.on("message", (msg, rinfo) => {
 			let pingACK = JSON.stringify({
 				msg_type: "ping_ack",
 				client_id: client_id,
+				client_name: client_name,
 			});
 			client.send(pingACK, server_port, server_ip);
 			break;

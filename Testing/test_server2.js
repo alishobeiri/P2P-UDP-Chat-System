@@ -111,7 +111,7 @@ server.on("message", (msg, rinfo) => {
 			break;
 		case "ping_ack":
 			console.log(`Client with ID ${msg.client_id} is still connected`);
-			clientLst.forEach((client) => {
+			clientList.forEach((client) => {
 				if(client.client_id===msg.client_id){
 					client.ping_received = true;
 				}
