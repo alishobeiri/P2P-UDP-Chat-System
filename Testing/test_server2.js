@@ -36,7 +36,7 @@ const registerClient = (msg, rinfo)=> {
   	};
   	console.log(`New client, ${new_client.client_name}, has been registered`);
   	console.log(`${new_client.client_name}'s public address is ${new_client.public_ip}:${new_client.public_port}`);
-  	console.log(`${new_client.client_name}'s public address is ${new_client.private_ip}:${new_client.private_port}`);
+  	console.log(`${new_client.client_name}'s private address is ${new_client.private_ip}:${new_client.private_port}`);
   	console.log(`${new_client.client_name}'s client ID is ${new_client.client_id}`);
   
 	//Alert all other clients about the new client
@@ -73,6 +73,7 @@ const sendPing = () => {
 	});
 	clientList.forEach((client) =>{
 		server.send(ping, client.public_port, client.public_ip);
+		console.log(`Ping sent to ${client.client_name}`);
 		client.ping_sent = true;
 	});
 };
@@ -113,4 +114,4 @@ server.on("message", (msg, rinfo) => {
 	}
 });
 
-// setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there
+setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there
