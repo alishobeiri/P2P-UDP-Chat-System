@@ -17,7 +17,7 @@ server.bind(3000, ip.address());
 server.on("listening", () => {
 	const address = server.address();
 	console.log(`Listening at ${address.address}:${address.port}`);
-	setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there
+	setInterval(pingClients, 5000); //Every 5 seconds, ping all clients to see if they're still there
 });
 
 //Register new client (takes as input msg and rinfo OBJECTS. i.e. msg must be in JSON form, not string form)
@@ -110,7 +110,7 @@ server.on("message", (msg, rinfo) => {
 			registerClient(msg, rinfo);
 			break;
 		case "ping_ack":
-			console.log(`Client with ID ${msg.client_id} is still connected`);
+			console.log(`Ping ACK received, ${msg.client_name} is still connected`);
 			clientList.forEach((client) => {
 				if(client.client_id===msg.client_id){
 					client.ping_received = true;
