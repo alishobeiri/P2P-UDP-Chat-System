@@ -99,6 +99,14 @@ const receivePing = () => {
 		    	server.send(lostClientMessage, client.public_port, client.public_ip);
 		  	});
 		}
+
+		//Reset ping_sent and ping_received back to false
+		if(clientList.length > 0){
+			clientList.forEach((client) => {
+				client.ping_sent = false;
+				client.ping_received = false;
+			});
+		}
 	}
 };
 //------------------------------------------------------------------------------------------------------------------------------------------------
