@@ -17,6 +17,7 @@ server.bind(3000, ip.address());
 server.on("listening", () => {
 	const address = server.address();
 	console.log(`Listening at ${address.address}:${address.port}`);
+	setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there
 });
 
 //Register new client (takes as input msg and rinfo OBJECTS. i.e. msg must be in JSON form, not string form)
@@ -71,27 +72,31 @@ const sendPing = () => {
 	let ping = JSON.stringify({
 		msg_type: "ping",
 	});
-	clientList.forEach((client) =>{
-		server.send(ping, client.public_port, client.public_ip);
-		console.log(`Ping sent to ${client.client_name}`);
-		client.ping_sent = true;
-	});
+	if(clientList.length > 0){
+		clientList.forEach((client) =>{
+			server.send(ping, client.public_port, client.public_ip);
+			console.log(`Ping sent to ${client.client_name}`);
+			client.ping_sent = true;
+		});
+	}
 };
 
 const receivePing = () => {
-	let oldLength = clientList.length;
-	clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
-	let newLength = clientList.length;
+	if(clientList.length > 0){
+		let oldLength = clientList.length;
+		clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
+		let newLength = clientList.length;
 
-	if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
-		console.log(`A client has left. There were ${oldLength} clients, now there are ${newLength} clients`);
-		clientList.forEach(client => {
-			let lostClientMessage = JSON.stringify({
-				msg_type: "lost_client",
-				clientList: clientList,
-	    	});
-	    	server.send(lostClientMessage, client.public_port, client.public_ip);
-	  	});
+		if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
+			console.log(`A client has left. There were ${oldLength} clients, now there are ${newLength} clients`);
+			clientList.forEach(client => {
+				let lostClientMessage = JSON.stringify({
+					msg_type: "lost_client",
+					clientList: clientList,
+		    	});
+		    	server.send(lostClientMessage, client.public_port, client.public_ip);
+		  	});
+		}
 	}
 };
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -114,4 +119,6 @@ server.on("message", (msg, rinfo) => {
 	}
 });
 
-setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there
+
+
+
