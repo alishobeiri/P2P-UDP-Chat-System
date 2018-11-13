@@ -86,16 +86,29 @@ const sendPing = () => {
 const receivePing = () => {
 	if(clientList.length > 0){
 		let oldLength = clientList.length;
-		clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
-		let newLength = clientList.length;
+		// clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
+		let new_clientList = [];
+		let lost_client_names = []; //Array containing names of clients who have left the network (will often just be one client)
+		clientList.forEach((client) => {
+			if((client.ping_sent) && (!client.ping_received)){
+				lost_client_names.push(client.client_name);
+			} else{
+				new_clientList.push(client);
+			}
+		});
+		// let newLength = clientList.length;
+		let newLength = new_clientList.length;
+		clientList = new_clientList;
 
 		if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
 			console.log(`A client has left. There were ${oldLength} clients, now there are ${newLength} clients`);
-			clientList.forEach(client => {
-				let lostClientMessage = JSON.stringify({
+			console.log("Current clientList:", clientList);
+			let lostClientMessage = JSON.stringify({
 					msg_type: "lost_client",
 					clientList: clientList,
-		    	});
+					lost_client_names: lost_client_names,
+		    });
+			clientList.forEach(client => {
 		    	server.send(lostClientMessage, client.public_port, client.public_ip);
 		  	});
 		}

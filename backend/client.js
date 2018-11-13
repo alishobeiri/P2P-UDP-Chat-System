@@ -231,6 +231,9 @@ client.on("message", (msg, rinfo) => {
 			client.send(pingACK, server_port, server_ip);
 			break;
 		case "lost_client":
+			for(i = 0; i<msg.lost_client_names; i++){
+				console.log(`${msg.lost_client_names[i]} has left the chatroom`);
+			}
 			//Server has detected that a client left, update your peers list (still filtering out self)
 			peersList = msg.clientList.filter(peer => !((peer.private_ip===ip.address())&&(peer.private_port===private_port)));
 			//If there are unpunched peers at this point, only keep the ones that are in the updated peers list
