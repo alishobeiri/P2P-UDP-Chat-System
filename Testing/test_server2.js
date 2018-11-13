@@ -46,6 +46,7 @@ const registerClient = (msg, rinfo)=> {
 	let newClientMessage = JSON.stringify({
 			msg_type: "new_client",
 			new_client: new_client,
+			clientList: clientList,
     });
 	clientList.forEach(client => {
     	server.send(newClientMessage, client.public_port, client.public_ip);

@@ -157,27 +157,19 @@ const receiveACK = (msg, rinfo) => {
 
 	//Find sender peer in peersList and add send_ip and send_port attributes (used for chatting)
     //Same concept as in sendACK() function
-    console.log("ACK: ", msg);
-    // let new_peer = {
-    //     name: msg.client_name,
-    //     id: peersList.length,
-    //     present_state: "Active",
-    //     send_ip: src_ip,
-    //     send_port: src_port
-    // };
-    // peersList.push(new_peer);
-    io.emit("NEW_USER", peersList);
+    // console.log("ACK: ", msg);
+    // io.emit("NEW_USER", peersList);
 	peersList.forEach((peer) => {
 		if(((peer.private_ip===src_ip)&&(peer.private_port===src_port))||((peer.public_ip===src_ip)&&(peer.public_port===src_port))){
 			// peer = Object.assign({}, peer, {send_ip: src_ip}, {send_port: src_port});
 			peer.send_ip = src_ip;
 			peer.send_port = src_port;
-			console.log(`Sending IP and port have been defined:`);
-			console.log(`send_ip: ${src_ip}`);
-			console.log(`send_port: ${src_port}`);
+			// console.log(`Sending IP and port have been defined:`);
+			// console.log(`send_ip: ${src_ip}`);
+			// console.log(`send_port: ${src_port}`);
 		}
 	});
-	console.log("Peers list after receicveACK: ", peersList);
+	// console.log("Peers list after receicveACK: ", peersList);
 }
 
 //Function called everytime client receives a message
@@ -189,12 +181,13 @@ client.on("message", (msg, rinfo) => {
 			//Initialize peers list and list of unpunched peers, filtering out self
 			peersList = msg.clientList.filter(peer => !((peer.private_ip===ip.address())&&(peer.private_port===private_port)));
 			unpunchedPeers = msg.clientList.filter((peer) => !((peer.private_ip===ip.address())&&(peer.private_port===private_port)));
-			console.log("Client list from server: ", msg.clientList);
-			console.log("Peers list after filtering self: ", peersList);
+			// console.log("Client list from server: ", msg.clientList);
+			// console.log("Peers list after filtering self: ", peersList);
 			//Assign client_id that was sent back by server
 			client_id = msg.client_id;
-			console.log(`The server has sent me an ID of ${msg.client_id}`);
-			console.log(`Thus, my current client ID is ${client_id}`);
+			// console.log(`The server has sent me an ID of ${msg.client_id}`);
+			// console.log(`Thus, my current client ID is ${client_id}`);
+			io.emit("REG_RESPONSE", msg);
 			
 			//call hole punch method to holepunch with entire network (you are the new clienit)
 			sendSYN();
@@ -204,6 +197,7 @@ client.on("message", (msg, rinfo) => {
 			//Update peers list
 			peersList.push(msg.new_client);
 			unpunchedPeers.push(msg.new_client);
+			io.emit("NEW_USER", msg.clientList);
 
 			//call hole punch method to holepunch with new client (you are already on the network)
 			sendSYN();
