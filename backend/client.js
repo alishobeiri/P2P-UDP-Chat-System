@@ -137,7 +137,12 @@ const sendACK = (msg, rinfo) => {
 	//Most often it will be public, unless both end hosts are on the same private network
 	peersList.forEach((peer) => {
 		if(((peer.private_ip===src_ip)&&(peer.private_port===src_port))||((peer.public_ip===src_ip)&&(peer.public_port===src_port))){
-			peer = Object.assign({}, peer, {send_ip: src_ip}, {send_port: src_port});
+			// peer = Object.assign({}, peer, {send_ip: src_ip}, {send_port: src_port});
+			peer.send_ip = src_ip;
+			peer.send_port = src_port;
+			console.log(`Sending IP and port have been defined:`);
+			console.log(`send_ip: ${send_ip}`);
+			console.log(`send_port: ${send_port}`);
 		}
 	});
 }
@@ -164,7 +169,12 @@ const receiveACK = (msg, rinfo) => {
     io.emit("NEW_USER", peersList);
 	peersList.forEach((peer) => {
 		if(((peer.private_ip===src_ip)&&(peer.private_port===src_port))||((peer.public_ip===src_ip)&&(peer.public_port===src_port))){
-			peer = Object.assign({}, peer, {send_ip: src_ip}, {send_port: src_port});
+			// peer = Object.assign({}, peer, {send_ip: src_ip}, {send_port: src_port});
+			peer.send_ip = src_ip;
+			peer.send_port = src_port;
+			console.log(`Sending IP and port have been defined:`);
+			console.log(`send_ip: ${send_ip}`);
+			console.log(`send_port: ${send_port}`);
 		}
 	});
 	console.log("Peers list after receicveACK: ", peersList);

@@ -29,6 +29,8 @@ const registerClient = (msg, rinfo)=> {
 		private_ip: msg.private_ip,
 		client_id: new_client_id, 
 		private_port: msg.private_port,
+		send_ip: 0,
+		send_port: 0,
 		ping_sent: false,
 		ping_received: false, 
   	};
