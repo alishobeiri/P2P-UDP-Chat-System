@@ -187,6 +187,7 @@ client.on("message", (msg, rinfo) => {
 			client_id = msg.client_id;
 			// console.log(`The server has sent me an ID of ${msg.client_id}`);
 			// console.log(`Thus, my current client ID is ${client_id}`);
+			console.log("Reg_Response MSG: ", msg);
 			io.emit("REG_RESPONSE", msg);
 			
 			//call hole punch method to holepunch with entire network (you are the new clienit)
@@ -197,6 +198,8 @@ client.on("message", (msg, rinfo) => {
 			//Update peers list
 			peersList.push(msg.new_client);
 			unpunchedPeers.push(msg.new_client);
+			msg.clientList.push(msg.new_client);
+			console.log("Client List: ", msg.clientList);
 			io.emit("NEW_USER", msg.clientList);
 
 			//call hole punch method to holepunch with new client (you are already on the network)
