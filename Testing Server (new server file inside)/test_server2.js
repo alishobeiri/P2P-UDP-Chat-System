@@ -22,18 +22,6 @@ server.on("listening", () => {
 //Register new client (takes as input msg and rinfo OBJECTS. i.e. msg must be in JSON form, not string form)
 const registerClient = (msg, rinfo)=> {
 	let new_client_id = parseInt(Math.random()*(256));
-	// idList.push(new_client_id);
-	// let new_client = Object.assign({}, 
-	// 	// rinfo, //rinfo contains address (public address, family, port and size fields
-	// 	{ public_ip: rinfo.address },
-	// 	{ public_port: rinfo.port },
-	// 	{ client_name: msg.client_name }, 
-	// 	{ private_ip: msg.private_ip },
-	// 	{ client_id: new_client_id }, 
-	// 	{ private_port: msg.private_port },
-	// 	{ ping_sent: false },
-	// 	{ ping_received: false }
- 	//  	);
   	let new_client = {
   		public_ip: rinfo.address,
   		public_port: rinfo.port,
@@ -50,11 +38,11 @@ const registerClient = (msg, rinfo)=> {
   	console.log(`${new_client.client_name}'s client ID is ${new_client.client_id}`);
   
 	//Alert all other clients about the new client
-	clientList.forEach(client => {
-		let newClientMessage = JSON.stringify({
+	let newClientMessage = JSON.stringify({
 			msg_type: "new_client",
 			new_client: new_client,
-    	});
+    });
+	clientList.forEach(client => {
     	server.send(newClientMessage, client.public_port, client.public_ip);
   	});
 
@@ -71,37 +59,38 @@ const registerClient = (msg, rinfo)=> {
 };
 
 //Test methods to be executed every ~20 seconds to check if clients are still connected--------------------------------------------------------
-const pingClients = () => {// Uses two other helper functions
-	//Call send ping function, ping_acks will be handled in the server.on("message", (msg, rinfo)) function
-	sendPing();
-	setTimeout(receivePing, 1500);//Wait 1.5 seconds, then call receive ping function
-};
+// const pingClients = () => {// Uses two other helper functions
+// 	//Call send ping function, ping_acks will be handled in the server.on("message", (msg, rinfo)) function
+// 	sendPing();
+// 	setTimeout(receivePing, 1500);//Wait 1.5 seconds, then call receive ping function
+// };
 
-const sendPing = () => {
-	let ping = JSON.stringify({
-		msg_type: "ping",
-	});
-	clientList.forEach((client) =>{
-		server.send(ping, client.public_port, client.public_ip);
-		client.ping_sent = true;
-	});
-};
+// const sendPing = () => {
+// 	let ping = JSON.stringify({
+// 		msg_type: "ping",
+// 	});
+// 	clientList.forEach((client) =>{
+// 		server.send(ping, client.public_port, client.public_ip);
+// 		client.ping_sent = true;
+// 	});
+// };
 
-const receivePing = () => {
-	let oldLength = clientList.length;
-	clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
-	let newLength = clientList.length;
+// const receivePing = () => {
+// 	let oldLength = clientList.length;
+// 	clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
+// 	let newLength = clientList.length;
 
-	if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
-		clientList.forEach(client => {
-			let lostClientMessage = JSON.stringify({
-				msg_type: "lost_client",
-				clientList: clientList,
-	    	});
-	    	server.send(lostClientMessage, client.public_port, client.public_ip);
-	  	});
-	}
-};
+// 	if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
+// 		console.log(`A client has left. There were ${oldLength} clients, now there are ${newLength} clients`);
+// 		clientList.forEach(client => {
+// 			let lostClientMessage = JSON.stringify({
+// 				msg_type: "lost_client",
+// 				clientList: clientList,
+// 	    	});
+// 	    	server.send(lostClientMessage, client.public_port, client.public_ip);
+// 	  	});
+// 	}
+// };
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -121,4 +110,4 @@ server.on("message", (msg, rinfo) => {
 	}
 });
 
-setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there
+// setInterval(pingClients, 20000); //Every 20 seconds, ping all clients to see if they're still there

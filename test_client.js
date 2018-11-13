@@ -191,4 +191,4 @@ stdin.addListener("data", (data) => {
 });
 
 //Bind client socket to first available port
-client.bind();
+client.bind(4000);

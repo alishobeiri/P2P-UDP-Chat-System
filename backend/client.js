@@ -32,7 +32,8 @@ io.on('connection', (socket) => {
         const clientAddress = client.address(); 
         private_port = clientAddress.port; 
         private_ip = ip.address(); 
-		console.log("New User");
+		// console.log("New User");
+		console.log(`${client_name}, you are about to register yourself with the Server...`);
         //Check validity of server IP address
         let address = new Address4(server_ip);
         if(address.isValid()){
@@ -64,6 +65,8 @@ const sendMessage = (data) => {
     console.log("Peers: ", peersList);
     peersList.forEach((peer) => {
         console.log("Peer: ", peer);
+        console.log(`${peer.client_name}'s send_port: ${peer.send_port}`);
+        console.log(`${peer.client_name}'s send_ip: ${peer.send_ip}`);
         client.send(msg, peer.send_port, peer.send_ip);
     });
 };
@@ -164,6 +167,7 @@ const receiveACK = (msg, rinfo) => {
 			peer = Object.assign({}, peer, {send_ip: src_ip}, {send_port: src_port});
 		}
 	});
+	console.log("Peers list after receicveACK: ", peersList);
 }
 
 //Function called everytime client receives a message
@@ -175,8 +179,12 @@ client.on("message", (msg, rinfo) => {
 			//Initialize peers list and list of unpunched peers, filtering out self
 			peersList = msg.clientList.filter(peer => !((peer.private_ip===ip.address())&&(peer.private_port===private_port)));
 			unpunchedPeers = msg.clientList.filter((peer) => !((peer.private_ip===ip.address())&&(peer.private_port===private_port)));
+			console.log("Client list from server: ", msg.clientList);
+			console.log("Peers list after filtering self: ", peersList);
 			//Assign client_id that was sent back by server
 			client_id = msg.client_id;
+			console.log(`The server has sent me an ID of ${msg.client_id}`);
+			console.log(`Thus, my current client ID is ${client_id}`);
 			
 			//call hole punch method to holepunch with entire network (you are the new clienit)
 			sendSYN();
@@ -200,7 +208,7 @@ client.on("message", (msg, rinfo) => {
 			sendACK(msg, rinfo);
 			break;
 		case "holepunch_ack":
-			console.log(`Received holepunch ACK from ${msg.client_name} (${rinfo.address}:${rinfo.port}`); //To be removed later (not part of chatroom)
+			console.log(`Received holepunch ACK from ${msg.client_name} (${rinfo.address}:${rinfo.port})`); //To be removed later (not part of chatroom)
 			receiveACK(msg, rinfo);
 			break;
 		case "ping":
@@ -223,4 +231,4 @@ client.on("message", (msg, rinfo) => {
 });
 
 
-client.bind(0)
+client.bind(4000)
