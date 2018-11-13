@@ -57,7 +57,7 @@ const sendMessage = (data) => {
 	let msg = JSON.stringify({
         msg_type: "chat_message",
         id: Math.random(),
-        message: data.text,
+        message: data.message,
         author: data.author
 	});
     console.log("Sending clients message");

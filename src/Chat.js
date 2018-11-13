@@ -37,7 +37,9 @@ class Chat extends React.Component {
       console.log("New users: ", data);
       this.setState({users: [data]});
       console.log(this.state.users);
-  };
+    };
+
+    this.addMessage = addMessage;
   }
 
   componentDidMount() {
@@ -46,11 +48,14 @@ class Chat extends React.Component {
 
   onSend = message => {
     console.log(this.socket);
-    this.props.socket.emit('SEND_MESSAGE', {
+    var data = {
       id: this.state.messages.length,
       author: this.state.name,
-      text: message
-    });
+      message: message
+    }
+    this.props.socket.emit('SEND_MESSAGE', data);
+    console.log("LOCAL MESSAGE DATA");
+    this.addMessage(data);
   }
 
   render() {
