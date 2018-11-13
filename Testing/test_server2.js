@@ -17,7 +17,7 @@ server.bind(3000, ip.address());
 server.on("listening", () => {
 	const address = server.address();
 	console.log(`Listening at ${address.address}:${address.port}`);
-	setInterval(pingClients, 5000); //Every 5 seconds, ping all clients to see if they're still there
+	setInterval(pingClients, 10000); //Every 10 seconds, ping all clients to see if they're still there
 });
 
 //Register new client (takes as input msg and rinfo OBJECTS. i.e. msg must be in JSON form, not string form)
