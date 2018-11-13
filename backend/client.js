@@ -141,8 +141,8 @@ const sendACK = (msg, rinfo) => {
 			peer.send_ip = src_ip;
 			peer.send_port = src_port;
 			console.log(`Sending IP and port have been defined:`);
-			console.log(`send_ip: ${send_ip}`);
-			console.log(`send_port: ${send_port}`);
+			console.log(`send_ip: ${src_ip}`);
+			console.log(`send_port: ${src_port}`);
 		}
 	});
 }
@@ -173,8 +173,8 @@ const receiveACK = (msg, rinfo) => {
 			peer.send_ip = src_ip;
 			peer.send_port = src_port;
 			console.log(`Sending IP and port have been defined:`);
-			console.log(`send_ip: ${send_ip}`);
-			console.log(`send_port: ${send_port}`);
+			console.log(`send_ip: ${src_ip}`);
+			console.log(`send_port: ${src_port}`);
 		}
 	});
 	console.log("Peers list after receicveACK: ", peersList);

@@ -50,7 +50,6 @@ const registerClient = (msg, rinfo)=> {
 
   
  	//Send the new client the current client list
- 	console.log(`clientList length: ${clientList.length}`);
   	let regResponseMessage = JSON.stringify({
   		msg_type: "reg_response",
 		clientList: clientList,
@@ -58,6 +57,7 @@ const registerClient = (msg, rinfo)=> {
 	});
   	server.send(regResponseMessage, new_client.public_port, new_client.public_ip);
   	clientList.push(new_client); //Might want to add new_client to clientList before sending clientList to new_client? Not sure why they did it after
+  	console.log(`clientList length: ${clientList.length}`);
 };
 
 //Test methods to be executed every ~20 seconds to check if clients are still connected--------------------------------------------------------
