@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
     })
 });
 
-//Function to register self to server
+//Function to send chat message received from frontend
 const sendMessage = (data) => {
 	//Create registration request message
 	let msg = JSON.stringify({

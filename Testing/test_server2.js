@@ -61,38 +61,38 @@ const registerClient = (msg, rinfo)=> {
 };
 
 //Test methods to be executed every ~20 seconds to check if clients are still connected--------------------------------------------------------
-// const pingClients = () => {// Uses two other helper functions
-// 	//Call send ping function, ping_acks will be handled in the server.on("message", (msg, rinfo)) function
-// 	sendPing();
-// 	setTimeout(receivePing, 1500);//Wait 1.5 seconds, then call receive ping function
-// };
+const pingClients = () => {// Uses two other helper functions
+	//Call send ping function, ping_acks will be handled in the server.on("message", (msg, rinfo)) function
+	sendPing();
+	setTimeout(receivePing, 1500);//Wait 1.5 seconds, then call receive ping function
+};
 
-// const sendPing = () => {
-// 	let ping = JSON.stringify({
-// 		msg_type: "ping",
-// 	});
-// 	clientList.forEach((client) =>{
-// 		server.send(ping, client.public_port, client.public_ip);
-// 		client.ping_sent = true;
-// 	});
-// };
+const sendPing = () => {
+	let ping = JSON.stringify({
+		msg_type: "ping",
+	});
+	clientList.forEach((client) =>{
+		server.send(ping, client.public_port, client.public_ip);
+		client.ping_sent = true;
+	});
+};
 
-// const receivePing = () => {
-// 	let oldLength = clientList.length;
-// 	clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
-// 	let newLength = clientList.length;
+const receivePing = () => {
+	let oldLength = clientList.length;
+	clientList = clientList.filter(client => !((client.ping_sent) && (!client.ping_received))); //Remove all clients where ping was sent but not received
+	let newLength = clientList.length;
 
-// 	if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
-// 		console.log(`A client has left. There were ${oldLength} clients, now there are ${newLength} clients`);
-// 		clientList.forEach(client => {
-// 			let lostClientMessage = JSON.stringify({
-// 				msg_type: "lost_client",
-// 				clientList: clientList,
-// 	    	});
-// 	    	server.send(lostClientMessage, client.public_port, client.public_ip);
-// 	  	});
-// 	}
-// };
+	if(oldLength != newLength){ //If clients have been removed bc they're unresponsive, alert all current clients of new clientList
+		console.log(`A client has left. There were ${oldLength} clients, now there are ${newLength} clients`);
+		clientList.forEach(client => {
+			let lostClientMessage = JSON.stringify({
+				msg_type: "lost_client",
+				clientList: clientList,
+	    	});
+	    	server.send(lostClientMessage, client.public_port, client.public_ip);
+	  	});
+	}
+};
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -104,6 +104,7 @@ server.on("message", (msg, rinfo) => {
 			registerClient(msg, rinfo);
 			break;
 		case "ping_ack":
+			console.log(`Client with ID ${msg.client_id} is still connected`);
 			clientLst.forEach((client) => {
 				if(client.client_id===msg.client_id){
 					client.ping_received = true;
