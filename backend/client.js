@@ -113,7 +113,6 @@ const sendSYN = (counter) => {
       		
     	});
 
-    	//Not too sure what this part does but it's also in the original client.js file
     	if (counter && counter > 0) { 
      		counter--;
       		setTimeout(() => {sendSYN(counter);}, 100);
