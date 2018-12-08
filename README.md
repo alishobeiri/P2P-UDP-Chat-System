@@ -21,8 +21,10 @@ To intall the necessary dependencies, first use:
 
 #### Client Setup:
 To the client proxy server, perform the following commands:  
-```cd backend```  
-```node client.js```
+```
+cd backend
+node client.js
+```
 
 To run the frontend application, in a separate command window perform the following commands:  
 `npm run dev`
