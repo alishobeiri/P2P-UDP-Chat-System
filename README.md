@@ -7,7 +7,7 @@ To allow two peers behind NATs to connect to one another directly, a third obser
 
 Each peer, whether newly connected or established will then send each other a flow of UDP packets at the same time. This is done to circumvent firewall protections on the NAT by masquerading as a reply to a previously sent UDP packet by the client. 
 
-For those that are interested, the methodology behind the system and the implementation details can be found [here](https://github.com/alishobeiri/Peer-2-Peer-UDP-Chat-System/blob/master/Report.pdf).
+For more information for those interested, the methodology behind the system and the implementation details can be found [here](https://github.com/alishobeiri/Peer-2-Peer-UDP-Chat-System/blob/master/Report.pdf).
 
 ### Implementation
 Server - NodeJS
