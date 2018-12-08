@@ -21,7 +21,7 @@ To intall the necessary dependencies, first use:
 
 #### Client Setup:
 To the client proxy server, perform the following commands:  
-```cd backend```
+```cd backend```  
 ```node client.js```
 
 To run the frontend application, in a separate command window perform the following commands:  
@@ -29,7 +29,7 @@ To run the frontend application, in a separate command window perform the follow
 
 #### Server Setup:
 To run the server, run the server.js file on a remote public device. To do this, use:  
-```cd server```
+```cd server```  
 ```node server.js```
 
 Ensure to change this [variable](https://github.com/alishobeiri/Peer-2-Peer-UDP-Chat-System/blob/master/backend/client.js#L8) to point to the IP address of your server. 
