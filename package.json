@@ -5,7 +5,7 @@
   "homepage": "./",
   "main": "src/electron-starter.js",
   "devDependencies": {
-    "electron": "^7.2.4",
+    "electron": "^13.6.6",
     "foreman": "^2.0.0",
     "react-scripts": "^1.0.14"
   },
